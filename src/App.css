@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:600|Work+Sans:400,500,600,700&display=swap");
 
 body {
-  background: white url("./img/back.jpg") no-repeat scroll center;
+  background: white url("./img/background.jpeg") no-repeat scroll center;
   background-size: cover;
   font-family: "work sans";
 }

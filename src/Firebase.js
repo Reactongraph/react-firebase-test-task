@@ -1,8 +1,10 @@
-import * as firebase from "firebase";
-import firestore from "firebase/firestore";
-
-const settings = { timestampsInSnapshots: true };
-
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+} from "firebase/firestore/lite";
 const firebaseConfig = {
   apiKey: "AIzaSyDjJ_LXKdWXea4DUkbRezyBYCu6hZnxMJg",
   authDomain: "cafe-form-7540d.firebaseapp.com",
@@ -12,9 +14,7 @@ const firebaseConfig = {
   appId: "1:57116761783:web:ee0e6643ca452934657732",
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-firebase.firestore().settings(settings);
-
-export default firebase;
+export { db, collection, getDocs, addDoc };

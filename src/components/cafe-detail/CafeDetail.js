@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from "react";
-import firebase from "../../Firebase";
 import "./CafeDetails.css";
+import { db, collection, getDocs } from "../../Firebase";
+import { CardContent } from "./CardContent";
 
 function CafeDetail() {
   const [state, setState] = useState([]);
   useEffect(() => {
-    const database = firebase.firestore().collection("Cafe");
-
-    database.onSnapshot(onCollectionUpdate);
-  });
-
-  const onCollectionUpdate = (querySnapshot) => {
-    const boards = [];
-    querySnapshot.forEach((doc) => {
+    getData(db);
+  }, []);
+  const getData = async (db) => {
+    const database = collection(db, "Cafe");
+    const cafeSnapshot = await getDocs(database);
+    const data = cafeSnapshot.docs.map((doc, idx) => {
       const { name, city, pincode, drink } = doc.data();
-      boards.push({
+      return {
         key: doc.id,
         name,
         city,
         pincode,
         drink,
-      });
+      };
     });
-    setState(boards);
+    setState(data);
   };
 
   return (
@@ -31,14 +30,14 @@ function CafeDetail() {
         Array.isArray(state) &&
         state.map((data) => {
           return (
-            <div className="episode">
-              <div className="episode-content">
-                <div className="episode-tags">
-                  <span className="tags tags--name">{data.name}</span>
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <CardContent data={data} />
                 </div>
-                <p className="episode-data">City: {data.city}</p>
-                <p className="episode-data">Pincode: {data.pincode}</p>
-                <p className="episode-data">Cafe Offers: {data.drink}</p>
+                <div class="flip-card-back">
+                  <CardContent data={data} />
+                </div>
               </div>
             </div>
           );
