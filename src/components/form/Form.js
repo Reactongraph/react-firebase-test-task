@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FormInput from "./FormInput";
-import firebase from "../../Firebase";
+import { db, collection, addDoc } from "../../Firebase";
+
 import "./Form.css";
 
 function Form() {
@@ -24,15 +25,12 @@ function Form() {
 
   const handleSubmit = () => {
     const { name, city, pincode, number } = state;
-    const database = firebase.firestore().collection("Cafe");
-
-    database
-      .add({
-        name,
-        city,
-        pincode,
-        drink: number,
-      })
+    const database = addDoc(collection(db, "Cafe"), {
+      name,
+      city,
+      pincode,
+      drink: number,
+    })
       .then((docRef) => {
         setState({
           ...state,
